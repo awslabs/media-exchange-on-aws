@@ -129,14 +129,18 @@ def lambda_handler(event, context):
                     Bucket=destinationBucket,
                     CopySource={'Bucket': sourceBucket,'Key': sourceKey},
                     GrantRead='id="'+ os.environ['CANNONICAL_USER_ID'] + '"',
-                    Key=sourceKey
+                    Key=sourceKey,
+                    MetadataDirective='COPY',
+                    TaggingDirective='COPY'
                 )
             else:
                 copy_response = s3client.copy_object(
                     Bucket=destinationBucket,
                     CopySource={'Bucket': sourceBucket,'Key': sourceKey},
                     ACL='bucket-owner-full-control',
-                    Key=sourceKey
+                    Key=sourceKey,
+                    MetadataDirective='COPY',
+                    TaggingDirective='COPY'
                 )
 
             logger.debug('## COPY_RESPONSE\r' + jsonpickle.encode(dict(**copy_response)))
